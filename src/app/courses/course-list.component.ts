@@ -8,12 +8,29 @@ import { CourseService } from '../services/course.service';
   styleUrls: ['./course-list.component.scss'],
 })
 export class CourseListComponent implements OnInit {
-  courses: Course[] = [];
+  _courses: Course[] = [];
+  _filteredCourses: Course[] = [];
+  _filterBy: string;
 
-  constructor(private courseService: CourseService ) {
-    this.courses = this.courseService.getCourses();
-  }
+  constructor(private courseService: CourseService ) {};
 
   ngOnInit(): void {
+    this._courses = this.courseService.getCourses();
+    this._filteredCourses = this._courses;
   }
+
+  set filter(value: string) {
+    this._filterBy = value;
+    this._filteredCourses = this._courses.filter(
+      course => course.name
+        .toLowerCase()
+        .indexOf(this._filterBy.toLowerCase()) > -1
+    );
+  }
+
+  get filter() {
+    return this._filterBy;
+  }
+
+
 }
