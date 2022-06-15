@@ -7,12 +7,25 @@ import { Course } from '../courses/course';
 export class CourseService {
 
   getCourses(): Course[] {
-    return this.COURSES;
+    return COURSES;
+  }
+
+  getById(id: number):Course {
+    return COURSES.find((courseIterator: Course) => courseIterator.id === id);
   }
 
   constructor() { }
 
-  COURSES: Course[] = [
+  save(course: Course) {
+    if(course.id) {
+      const index = COURSES.findIndex((courseIterator: Course) => courseIterator.id === course.id);
+      COURSES[index] = course;
+    }
+  }
+
+}
+
+  const COURSES: Course[] = [
     {
         id: 1,
         name: 'Angular: CLI',
@@ -69,4 +82,3 @@ export class CourseService {
         imageUrl: '/assets/images/animations.png',
     }
 ];
-}
